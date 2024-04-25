@@ -1,0 +1,113 @@
+<html>
+
+<head>
+    <title>Pacman</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.8" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+</head>
+
+<body>
+    <span id="return-to-levels" onclick="reternToLevels()">
+        << return to levels </span>
+
+            <div id="header">
+                PASSES:&nbsp; <span id="score">0</span> &nbsp;&nbsp;&nbsp; FAILS:&nbsp;
+                <span id="lives">0</span>&nbsp;&nbsp;&nbsp; Time:&nbsp; <span id="time">00:00</span>
+            </div>
+
+            <div id="divMap"></div>
+
+            <div id="header2">
+                <span onclick="openOverlay()"> restart </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div id="overlay" onclick="closeOverlay()">
+                <div id="overlay-content">
+                    <h2>Restart Confirmation</h2>
+                    <p>Are you sure you want to restart the game?</p>
+                    <br />
+                    <span onclick="restart()" style="left: 57pc">Restart</span>
+                    <span onclick="closeOverlay()" style="left: 72pc">Cancel</span>
+                </div>
+            </div>
+
+            <div id="overlayWin">
+                <div id="overlay-content">
+                    <h2>bim!</h2>
+                    <img id="bim" src="../static/images/checkmark.png" />
+
+                    <p>Your code passed the tests successfully!</p>
+
+                    <span onclick="EnterYourName()">
+                        <img id="bro" src="../static/images/arrow.png" style="
+                                    width: 50px;
+                                    height: fit-content;
+                                    position: fixed;
+                                    top: 44.2pc;
+                                    left: 71.9pc;
+                                " />
+                        Continue</span>
+                </div>
+            </div>
+
+            <div id="overlayFail">
+                <div id="overlay-content">
+                    <h2>Oh snap!</h2>
+                    <img id="snap" src="../static/images/crossmark.png" />
+                    <p>Your code failed the tests.</p>
+                    <br />
+                    <span onclick="EnterYourName()">
+                        <img id="bro" src="../static/images/arrow.png" style="
+                                    width: 50px;
+                                    height: fit-content;
+                                    position: fixed;
+                                    top: 44.3pc;
+                                    left: 70.6pc;
+                                " />
+                        Continue </span>
+                </div>
+            </div>
+
+            <div id="enterUrName" class="center-div" style="display: none;">
+                <form method="POST" id="UserNameForm" onsubmit="submitForm(event)">
+                    <label for="name">Enter Your Name:</label><br><br>
+                    <input type="text" id="userNameInput" name="name" placeholder="Enter your text here" maxlength="50"
+                        required>
+
+                    <input type="hidden" id="scoreInput" name="score" value="">
+                    <input type="hidden" id="timeInput" name="time" value="">
+                    <br><br>
+                    <button>Submit</button>
+                </form>
+            </div>
+
+            <div id="ScoreList" style="display: none;">
+                <div class="tableList scroll-container">
+                    <h1>Top Scores</h1>
+                    <table id="score-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="score-body"></tbody>
+                    </table>
+                    <br>
+
+                    <span id="previous" onclick="previousPage()"> Previous</span>
+                    <br><span id="next" onclick="nextPage()"> Next</span>
+
+                </div>
+
+                <span id="return-to-levels" onclick="reternToLevels()">
+                    << return to levels </span>
+            </div>
+
+            <script src="../static/js/index.js"></script>
+</body>
+
+</html>

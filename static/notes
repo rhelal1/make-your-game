@@ -1,0 +1,8 @@
+right = rotate(-90deg)
+left = rotate(90deg)
+up = rotate(180deg)
+down = rotate(360deg)
+
+
+map y is from 1 to 19
+map x is from 1 to 17
