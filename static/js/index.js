@@ -680,6 +680,12 @@ function step(timeStamp) {
 
 window.requestAnimationFrame(step);
 
+let pageSize = 5; 
+let ScoreData;
+let totalData;
+let totalPages;
+let currentPage = 1; // Initialize the current page index
+
 
 function submitForm(event) {
     // Prevent the form from submitting normally
@@ -710,45 +716,102 @@ function submitForm(event) {
         })
         .then(data => {
             // Handle the response data
-            displayScores(data); // Pass the response data to the displayScores function
+            ScoreData = data;
+            totalData = Object.keys(ScoreData).length; // Get the total number of data
+            totalPages = Math.ceil(totalData / pageSize); // Calculate the total number of pages
+
+            displayScores(data, 1, pageSize); // Pass the response data to the displayScores function
         })
         .catch(error => {
             console.error('Error:', error);
         });
 }
 
-function displayScores(data) {
-    console.log('Received data:', data); // Log the received data to check its structure
+function displayScores(data, page, pageSize) {
+    // console.log('Received data:', data); // Log the received data to check its structure
+  
+    const scoreBody = document.getElementById('score-body'); // Get the <tbody> element
+  
+    scoreBody.innerHTML = ''; // Clear the existing contents of the <tbody>
+  
+    // Calculate the starting and ending index based on the page and pageSize
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = page * pageSize;
 
-    // // Clear the existing contents of the <ul>
-    // scoreListUl.innerHTML = '';
-    const scoreList = document.getElementById('score-list'); // Get the <ul> element
 
-    // Generate list items and append them to the ul element
-    if (typeof data === 'object') {
-        const scoreBody = document.getElementById('score-body');
-        let rank = 1;
-        for (const key in data) {
-            const row = document.createElement('tr');
-            const keyCell = document.createElement('td');
-            const valueCell = document.createElement('td');
-            const valueCell2 = document.createElement('td');
-            const valueCell3 = document.createElement('td');
+    // Update the page numbers in the HTML
+    const currentPageElement = document.getElementById('currentPage');
+    currentPageElement.textContent = page + '/' + totalPages;
 
-            keyCell.textContent = rank++;
-            valueCell.textContent = getValueAsString(data[key]).name;
-            valueCell2.textContent = getValueAsString(data[key]).score;
-            valueCell3.textContent = getValueAsString(data[key]).time;
+    const nextButtonElement = document.getElementById('next');
+    const previousButtonElement = document.getElementById('previous');
 
-            row.appendChild(keyCell);
-            row.appendChild(valueCell);
-            row.appendChild(valueCell2);
-            row.appendChild(valueCell3);
-
-            scoreBody.appendChild(row);
-        }
+    if (page === 1) {
+        previousButtonElement.style.color = 'gray';
+        previousButtonElement.style.pointerEvents = 'none';
+        previousButtonElement.style.cursor = 'default';
+        previousButtonElement.style.textDecoration = 'none';
+        previousButtonElement.style.transform = 'none';
+        previousButtonElement.style.textShadow = 'none';
     } else {
-        console.error('Invalid data format. Expected an array or an object.');
+        previousButtonElement.style.color = ''; // Reset to default color
+        previousButtonElement.style.pointerEvents = '';
+        previousButtonElement.style.cursor = '';
+        previousButtonElement.style.textDecoration = '';
+        previousButtonElement.style.transform = '';
+        previousButtonElement.style.textShadow = '';
+    }
+
+    if (page === totalPages) {
+        nextButtonElement.style.color = 'gray';
+        nextButtonElement.style.pointerEvents = 'none';
+        nextButtonElement.style.cursor = 'default';
+        nextButtonElement.style.textDecoration = 'none';
+        nextButtonElement.style.transform = 'none';
+        nextButtonElement.style.textShadow = 'none';
+    } else {
+        nextButtonElement.style.color = ''; // Reset to default color
+        nextButtonElement.style.pointerEvents = '';
+        nextButtonElement.style.cursor = '';
+        nextButtonElement.style.textDecoration = '';
+        nextButtonElement.style.transform = '';
+        nextButtonElement.style.textShadow = '';
+    }
+  
+    // Generate list items and append them to the tbody element
+    if (typeof data === 'object') {
+      let rank = startIndex + 1;
+      let count = 0; // Track the number of rows generated
+  
+      for (const key in data) {
+        if (count >= startIndex && count < endIndex) {
+          const row = document.createElement('tr');
+          const keyCell = document.createElement('td');
+          const valueCell = document.createElement('td');
+          const valueCell2 = document.createElement('td');
+          const valueCell3 = document.createElement('td');
+  
+          keyCell.textContent = rank++;
+          valueCell.textContent = getValueAsString(data[key]).name;
+          valueCell2.textContent = getValueAsString(data[key]).score;
+          valueCell3.textContent = getValueAsString(data[key]).time;
+  
+          row.appendChild(keyCell);
+          row.appendChild(valueCell);
+          row.appendChild(valueCell2);
+          row.appendChild(valueCell3);
+  
+          scoreBody.appendChild(row);
+        }
+  
+        count++; // Increment the count of generated rows
+  
+        if (count >= endIndex) {
+          break; // Stop generating rows if we reach the end index
+        }
+      }
+    } else {
+      console.error('Invalid data format. Expected an array or an object.');
     }
 }
 
@@ -762,13 +825,15 @@ function getValueAsString(value) {
 }
 
 function nextPage() {
-    currentPage++; // Increment the current page index
-    displayScores(data, currentPage);
+    if (currentPage < totalPages) {
+      currentPage++; // Increment the current page index
+      displayScores(ScoreData, currentPage, pageSize);
+    }
 }
 
 function previousPage() {
-    if (currentPage > 0) {
-        currentPage--; // Decrement the current page index
-        displayScores(data, currentPage);
-    }
+  if (currentPage > 1) {
+    currentPage--; // Decrement the current page index
+    displayScores(ScoreData, currentPage, pageSize);
+  }
 }

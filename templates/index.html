@@ -84,7 +84,8 @@
 
             <div id="ScoreList" style="display: none;">
                 <div class="tableList scroll-container">
-                    <h1>Top Scores</h1>
+
+                    <h1>Top SCORES</h1>
                     <table id="score-table">
                         <thead>
                             <tr>
@@ -96,10 +97,11 @@
                         </thead>
                         <tbody id="score-body"></tbody>
                     </table>
-                    <br>
+                    
 
-                    <span id="previous" onclick="previousPage()"> Previous</span>
-                    <br><span id="next" onclick="nextPage()"> Next</span>
+                    <span class="scoreListbuttom" id="previous" onclick="previousPage()"> Previous</span>
+                    <span id="currentPage"></span> 
+                    <span class="scoreListbuttom" id="next" onclick="nextPage()"> Next</span>
 
                 </div>
 

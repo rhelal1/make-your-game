@@ -11,9 +11,7 @@
 
 #header,
 #header2,
-#return-to-levels,
-#previous,
-#next {
+#return-to-levels {
     position: fixed;
     transform: translateZ(0);
     color: white;
@@ -25,18 +23,27 @@
     justify-content: center;
 }
 
+
+.scoreListbuttom {
+    transform: translateZ(0);
+    color: white;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    margin: 2%;
+    transition: transform 0.3s ease;
+}
+
 #next {
-    margin: 0;
     float: right;
 }
 
 #previous{
-    margin: 0;
+    float: left;
 }
 
-#return-to-levels,
-#previous,
-#next {
+#return-to-levels {
     left: 10pc;
     font-size: 10px;
     cursor: pointer;
@@ -46,16 +53,23 @@
 #score-table {
     justify-content: center;
     width: 90%;
-    height: 90%;
+    height: 40%;
     font-size: 24px
 }
 
+#currentPage{
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    margin-left: 25%;
+}
+
 .tableList.scroll-container {
-    width: 30%;
-    height: 40%;
+    width: 40%;
+    height: 60%;
     float: left;
     margin: 10%;
-    margin-left: 40%;
+    margin-left: 32%;
     clear: left;
     overflow: scroll;
 }
@@ -85,6 +99,7 @@
 #next:hover {
     text-shadow: 2px 2px 20px rgba(0, 224, 213, 0.5);
     transform: scale(1.2);
+    text-decoration: underline;
 }
 
 #header2 {
@@ -323,6 +338,7 @@ table {
     text-align: center;
     margin: 5%;
     font-size: medium;
+    font-size:30px
 }
 
 #overlay h2 {
