@@ -9,7 +9,9 @@
 
 <body>
     <div id="elements">
-        <text id="welcome">Welcome !</text>
+        <h id="welcome">Welcome !</h>
+        <br/>        <br/>
+        <br/>
         <div id="pacPiscine">
             <h1 id="PiscineTitle">Piscine PacMan #01</h1>
             <h id="PiscineDate">BY &gt; Mariam Abbas & Ruqaya Helal</h>
@@ -29,9 +31,9 @@
                     " />
             <h id="PiscinePacMan" onclick=" goToGraph() ">GO TO PISCINE PacMan</h>
         </div>
-
-        <div id="OurStory">
-            <p>
+        <div id = "scoreAndStory"> 
+            <div id="OurStory">
+                <p>
                 In this newly introduced academic program, known as 'Piscine Pacman' students
                 are required to successfully complete various projects in order to complete it. Each
                 project consists of a set number of audits that students must pass. However, it
@@ -39,11 +41,34 @@
                 be deemed unsuccessful and will be required to repeat the project. As part of
                 the evaluation process, there are three auditors who have the authority to
                 assign a failing grade: Amail, Fatabbas, Emahfood, and Akhaled
-            </p>
+                </p>
+            </div>                
+                <div id="HomeScoreList" >
+
+                    <h1>Top SCORES</h1>
+                    <table id="score-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="score-body"></tbody>
+                    </table>
+                    
+
+                    <span class="scoreListbuttom" id="previous" onclick="previousPage()"> Previous</span>
+                    <span id="currentPage"></span> 
+                    <span class="scoreListbuttom" id="next" onclick="nextPage()"> Next</span>
+
+            </div>
         </div>
 
     </div>
 
 </body>
+            <script src="../static/js/index.js"></script>
 
 </html>
