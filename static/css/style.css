@@ -515,9 +515,21 @@ p {
     padding-bottom: 3%;
 }
 
+#scoreAndStory {
+        font-family: "IBM Plex Mono";
+        display: flex;
+        position: relative;
+        height: auto;
+        width: 90%;
+
+}
+
+
 #OurStory {
+    display: flex;
+    display: inline-block;
     background-color: rgb(38, 38, 38);
-    width: 90%;
+    width: 1000%;
     height: auto;
     position: relative;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
@@ -527,13 +539,36 @@ p {
     text-align: justify;
     text-transform: uppercase;
     line-height: 2;
-    padding: 5%;
+    padding: 3%;
     /* Adjust the value to increase or decrease the space between lines */
 }
 
 #welcome {
-    position: fixed;
+    font-family: "IBM Plex Mono";
+    color:white;
+    font-size: 3.5pc;
+    position: relative;
+    margin-bottom: 5pc;
 }
+
+#HomeScoreList  {
+    font-family: "IBM Plex Mono";
+    margin: 0%;
+    position:relative;
+    background-color: #474747; 
+    left:11%;
+    width: 1400%;
+
+}
+
+#HomeScoreList h1 , #HomeScoreList th   {
+    font-family: "IBM Plex Mono";
+    font-weight: 500;}
+
+    #HomeScoreList h1  {
+position: relative;
+top: 2%;
+left: 30%;}
 
 /* End of Home Page Style */
 
