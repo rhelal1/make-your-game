@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.8" />
     <link href="./static/css/style.css" rel="stylesheet" />
-    <script src="./static/js/index.js"></script>
+
+    <script>
+        window.onload = function() {
+          // Your code here
+          showScore();
+        }
+      </script>
 </head>
 
 <body>
@@ -12,6 +18,7 @@
         <h id="welcome">Welcome !</h>
         <br/>        <br/>
         <br/>
+
         <div id="pacPiscine">
             <h1 id="PiscineTitle">Piscine PacMan #01</h1>
             <h id="PiscineDate">BY &gt; Mariam Abbas & Ruqaya Helal</h>
@@ -31,6 +38,7 @@
                     " />
             <h id="PiscinePacMan" onclick=" goToGraph() ">GO TO PISCINE PacMan</h>
         </div>
+
         <div id = "scoreAndStory"> 
             <div id="OurStory">
                 <p>
@@ -42,33 +50,31 @@
                 the evaluation process, there are three auditors who have the authority to
                 assign a failing grade: Amail, Fatabbas, Emahfood, and Akhaled
                 </p>
-            </div>                
-                <div id="HomeScoreList" >
+            </div>    
 
-                    <h1>Top SCORES</h1>
-                    <table id="score-table">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Name</th>
-                                <th>Score</th>
-                                <th>Time</th>
-                            </tr>
-                        </thead>
-                        <tbody id="score-body"></tbody>
-                    </table>
-                    
-
-                    <span class="scoreListbuttom" id="previous" onclick="previousPage()"> Previous</span>
-                    <span id="currentPage"></span> 
-                    <span class="scoreListbuttom" id="next" onclick="nextPage()"> Next</span>
-
+        <div id="HomeScoreList" >
+            <div class="tableList scroll-container"  class="homeScoreTable" style="width:100%; padding:0; margin:0">
+                <h1>SCORES</h1>
+                <table id="score-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody id="score-bodyHome" ></tbody>
+                </table>
             </div>
+
         </div>
+        </div>            
+
 
     </div>
+    <script src="./static/js/index.js"></script>
 
 </body>
-            <script src="../static/js/index.js"></script>
 
 </html>

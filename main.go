@@ -27,27 +27,33 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
+
 	// Parse the multipart form data
-	err := r.ParseMultipartForm(100)
-	if err != nil {
-		http.Error(w, "Failed to parse multipart form data", http.StatusBadRequest)
-		return
-	}
+	// err := r.ParseMultipartForm(100)
+	// if err != nil {
+	// 	http.Error(w, "Failed to parse multipart form data", http.StatusBadRequest)
+	// 	return
+	// }
 
 	// Access the form values
 	userName := r.FormValue("userName")
 	score, _ := strconv.Atoi(r.FormValue("score"))
 	time := r.FormValue("time")
 
-	// Create a ScoreInfo object
-	newScore := ScoreInfo{
-		Name:  userName,
-		Score: score,
-		Time:  time,
-	}
+	var data []ScoreInfo
 
-	// Append the new score to the JSON file, Retrieve the sorted data
-	data := AppendToJSON(newScore)
+	if userName != "" && score != 0 && time != "" {
+		// Create a ScoreInfo object
+		newScore := ScoreInfo{
+			Name:  userName,
+			Score: score,
+			Time:  time,
+		}
+		// Append the new score to the JSON file, Retrieve the sorted data
+		data = AppendToJSON(newScore, true)
+	} else {
+		data = AppendToJSON(ScoreInfo{}, false)
+	}
 
 	// Convert the response data to JSON
 	responseJSON, err := json.Marshal(data)
@@ -63,7 +69,7 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 	w.Write(responseJSON)
 }
 
-func AppendToJSON(score ScoreInfo) []ScoreInfo {
+func AppendToJSON(score ScoreInfo, flag bool) []ScoreInfo {
 	filePath := "./static/data/scores.json"
 
 	// Read the existing JSON file
@@ -81,8 +87,10 @@ func AppendToJSON(score ScoreInfo) []ScoreInfo {
 		}
 	}
 
-	// Append the new score to the slice
-	scores = append(scores, score)
+	if flag {
+		// Append the new score to the slice
+		scores = append(scores, score)
+	}
 
 	// Marshal the updated scores slice to JSON
 	jsonData, err := json.Marshal(scores)

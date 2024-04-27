@@ -37,6 +37,8 @@ let GameStarted = false;
 let GamePaused = false;
 
 const scoreElement = document.getElementById("score");
+const MessageElement = document.getElementById("message");
+
 let score = 0;
 
 // wall map
@@ -574,6 +576,13 @@ function isPacmanEaten() {
                 var livesElement = document.getElementById("lives");
                 livesElement.innerHTML = 3 - lives;
                 counter++;
+                if (lives == 2) {
+                    MessageElement.innerHTML = "be carful!<br/> 1 fail already";
+                    document.getElementById("message").style.color = "red";
+                } else {
+                    MessageElement.innerHTML = "extra fail from fatabbas<br/>and R.I.P";
+                    document.getElementById("message").style.color = "red";
+                }
                 return;
             } else {
                 endGame();
@@ -596,6 +605,21 @@ function didPacmanEat() {
     // will stop after finding one eaten item
     if (!majorTick()) return;
 
+    if (food_arr.length == 200) {
+        startAnimation('75px',"nice job") 
+        
+    } else if (food_arr.length == 150) { 
+        startAnimation('150px',"keep going") 
+    } else if (food_arr.length == 100) { 
+        startAnimation('200px',"fatabbas is so close !") 
+    }  else if (food_arr.length == 50) { 
+        startAnimation('300px',"hide from amali") 
+    }  else if (food_arr.length == 25) { 
+        startAnimation('400px',"25 passes left") 
+    } else if (food_arr.length == 10) { 
+        startAnimation('490px',"you're so close") 
+    }
+
     for (let i = 0; i < food_arr.length; i++) {
         const food = food_arr[i];
 
@@ -615,6 +639,14 @@ function didPacmanEat() {
         }
     }
 }
+
+    function startAnimation(size,Message) {
+        var rectangle = document.getElementById('ScoreForHistory');
+        rectangle.style.height = size ;
+        document.getElementById("message").style.color = "rgb(155, 120, 252)";
+        MessageElement.innerHTML = Message;
+
+    }
 
 const InnerTime = document.getElementById("time");
 
@@ -717,8 +749,15 @@ function submitForm(event) {
         .then(data => {
             // Handle the response data
             ScoreData = data;
+            rank = compareRank(data, userName+" "+score+" "+formattedTime.toString());
+
             totalData = Object.keys(ScoreData).length; // Get the total number of data
             totalPages = Math.ceil(totalData / pageSize); // Calculate the total number of pages
+
+            // Set the values in the HTML
+            document.getElementById("userName").textContent = userName;
+            document.getElementById("percentile").textContent = Math.ceil(rank/totalData*100)+ "%";
+            document.getElementById("positionRank").textContent = getOrdinalSuffix(rank);
 
             displayScores(data, 1, pageSize); // Pass the response data to the displayScores function
         })
@@ -726,6 +765,90 @@ function submitForm(event) {
             console.error('Error:', error);
         });
 }
+
+
+function getOrdinalSuffix(rank) {
+    var suffix = "";
+    var lastDigit = rank % 10;
+    var lastTwoDigits = rank % 100;
+  
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+      suffix = "th";
+    } else if (lastDigit === 1) {
+      suffix = "st";
+    } else if (lastDigit === 2) {
+      suffix = "nd";
+    } else if (lastDigit === 3) {
+      suffix = "rd";
+    } else {
+      suffix = "th";
+    }
+  
+    return rank + suffix;
+  }
+
+function compareRank(data, formData) {
+    // Compare each property of the object with the formData
+    rank = 0;
+    for (const key in data) {
+        rank++; 
+        testing = getValueAsString(data[key]).name + " " +getValueAsString(data[key]).score + " "+ getValueAsString(data[key]).time
+
+       if (formData ===  testing ){
+            return rank;
+       }
+    }
+
+    return -1; // Return -1 if no match found
+}
+
+function showScore(){
+    // Send the form data to the Go server
+    fetch('http://localhost:8080/formSubmit', {
+        method: 'GET',
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayScoresInHomePage(data); // Pass the response data to the displayScores function
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+
+function displayScoresInHomePage(data) {
+    console.log('Received data:', data); // Log the received data to check its structure
+
+    if (typeof data === 'object') {
+        const scoreBody = document.getElementById('score-bodyHome');
+        let rank = 1;
+        for (const key in data) {
+            const row = document.createElement('tr');
+            const keyCell = document.createElement('td');
+            const valueCell = document.createElement('td');
+            const valueCell2 = document.createElement('td');
+            const valueCell3 = document.createElement('td');
+            keyCell.textContent = rank++;
+            valueCell.textContent = getValueAsString(data[key]).name;
+            valueCell2.textContent = getValueAsString(data[key]).score;
+            valueCell3.textContent = getValueAsString(data[key]).time;
+            row.appendChild(keyCell);
+            row.appendChild(valueCell);
+            row.appendChild(valueCell2);
+            row.appendChild(valueCell3);
+            scoreBody.appendChild(row);
+        }
+    } else {
+        console.error('Invalid data format. Expected an array or an object.');
+    }
+}
+
 
 function displayScores(data, page, pageSize) {
     // console.log('Received data:', data); // Log the received data to check its structure
